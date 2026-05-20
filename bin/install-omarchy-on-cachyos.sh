@@ -6,13 +6,20 @@ if ! command -v git &> /dev/null; then
     exit 1
 fi
 
-# Clone omarchyy from repo
-echo "Clone Omarchy from repo..."
-if ! git clone https://www.github.com/basecamp/omarchy ../omarchy; then
-    echo "Error: Failed to clone Omarchy repo."
+# Fetch Omarchy from repo
+echo "Fetching Omarchy source..."
+if [ -f "./bin/fetch-omarchy.sh" ]; then
+    bash ./bin/fetch-omarchy.sh
+else
+    # Fallback if script is missing or run from different dir
+    echo "fetch-omarchy.sh not found, falling back to default clone..."
+    git clone https://www.github.com/basecamp/omarchy ../omarchy
 fi
 
-echo "Successfully extracted omarchy archive."
+if [ ! -d "../omarchy" ]; then
+    echo "Error: Failed to fetch Omarchy source."
+    exit 1
+fi
 
 # Check if yay is installed
 if ! command -v yay &> /dev/null; then
