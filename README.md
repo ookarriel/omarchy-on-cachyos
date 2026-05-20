@@ -10,7 +10,7 @@ This project provides an installation script for implementing DHH's Omarchy conf
 
 This installation script does the following three things:
 
-  1) Clones Omarchy from its github repository 
+  1) Prompts for and fetches your preferred version of Omarchy (Stable tags or Bleeding Edge)
   2) Makes adjustments to the Omarchy install scripts to support installation on CachyOS
   3) Launches the installation of Omarchy on an already setup CachyOS system
   4) Installs and configures NVIDIA 580xx proprietary drivers
