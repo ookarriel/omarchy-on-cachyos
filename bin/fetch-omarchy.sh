@@ -34,19 +34,21 @@ fi
 # Ensure target directory is clean before git cloning to prevent fatal conflicts
 if [ -d "$TARGET_DIR" ]; then
     echo ""
-    echo "⚠️ Warning: An existing installation directory was found at $TARGET_DIR"
+    echo "⚠️  Warning: An existing installation directory was found at $TARGET_DIR"
     read -r -p "Would you like to delete it and proceed with a clean install? [y/N]: " CONFIRM
     
     if [[ "${CONFIRM,,}" =~ ^(y|yes)$ ]]; then
         echo "Cleaning up previous installation files at $TARGET_DIR..."
         rm -rf "$TARGET_DIR"
     else
-        echo "Installation aborted by user to preserve existing directory."
-        exit 1
+        echo "Proceeding with existing files in $TARGET_DIR..."
+        # If user chooses not to delete, we should skip the clone but continue the script
+        exit 0
     fi
 fi
 
 # Execute clean, quiet checkout bypassing standard detached HEAD advice warnings
+echo "Cloning into $TARGET_DIR..."
 if ! git -c advice.detachedHead=false clone --quiet $BRANCH_ARGS $REPO_URL "$TARGET_DIR"; then
     echo "Error: Failed to clone Omarchy repo."
     exit 1

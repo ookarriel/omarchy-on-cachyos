@@ -8,17 +8,20 @@ fi
 
 # Fetch Omarchy from repo
 echo "Fetching Omarchy source..."
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+OMARCHY_DIR="$SCRIPT_DIR/../../omarchy"
+
 if [ -f "./fetch-omarchy.sh" ]; then
     chmod +x ./fetch-omarchy.sh
     ./fetch-omarchy.sh
 else
     # Fallback if script is missing
     echo "fetch-omarchy.sh not found, falling back to default clone..."
-    git clone https://www.github.com/basecamp/omarchy ../omarchy
+    git clone https://www.github.com/basecamp/omarchy "$OMARCHY_DIR"
 fi
 
-if [ ! -d "../omarchy" ]; then
-    echo "Error: Failed to fetch Omarchy source."
+if [ ! -d "$OMARCHY_DIR" ]; then
+    echo "Error: Failed to fetch Omarchy source at $OMARCHY_DIR"
     exit 1
 fi
 
